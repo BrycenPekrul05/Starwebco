@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Client Login | Star Web Co.</title>
+  <meta
+    name="description"
+    content="Client portal for Star Web Co. clients to view documents, invoices, balances, recurring payments, project updates, and support requests."
+  />
+  <meta name="author" content="Star Web Co." />
+  <meta name="theme-color" content="#06111f" />
+
+  <link rel="canonical" href="https://starwebco.com/client-login.html" />
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <meta property="og:title" content="Client Login | Star Web Co." />
+  <meta
+    property="og:description"
+    content="View your Star Web Co. documents, invoices, project status, and support requests."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://starwebco.com/client-login.html" />
+  <meta property="og:site_name" content="Star Web Co." />
+  <meta property="og:image" content="https://starwebco.com/assets/img/og-card.svg" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S81K5852EL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-S81K5852EL");
+  </script>
+
+  <style>
+    :root {
+      --portal-bg: #06111f;
+      --portal-card: rgba(10, 31, 58, 0.72);
+      --portal-line: rgba(125, 211, 252, 0.16);
+      --portal-line-bright: rgba(125, 211, 252, 0.34);
+      --portal-text: #ffffff;
+      --portal-muted: rgba(255, 255, 255, 0.68);
+      --portal-blue: #38bdf8;
+      --portal-blue-2: #7dd3fc;
+      --portal-green: #2dd4bf;
+      --portal-yellow: #facc15;
+      --portal-red: #fb7185;
+      --portal-shadow: 0 28px 85px rgba(0, 0, 0, 0.32);
+      --portal-radius: 26px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 18% 10%, rgba(56, 189, 248, 0.18), transparent 34%),
+        radial-gradient(circle at 88% 16%, rgba(15, 91, 157, 0.25), transparent 34%),
+        linear-gradient(180deg, #06111f, #07111e 42%, #050b14);
+    }
+
+    .client-hero {
+      position: relative;
+      overflow: hidden;
+      padding: 92px 0 64px;
+      color: var(--portal-text);
+    }
+
+    .client-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(125, 211, 252, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125, 211, 252, 0.035) 1px, transparent 1px);
+      background-size: 58px 58px;
+      mask-image: linear-gradient(to bottom, #000, transparent 88%);
+      pointer-events: none;
+    }
+
+    .client-hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .client-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 430px;
+      gap: 46px;
+      align-items: center;
+    }
+
+    .client-hero h1 {
+      max-width: 820px;
+      margin-bottom: 18px;
+    }
+
+    .client-hero .lead {
+      max-width: 710px;
+    }
+
+    .portal-proof-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .portal-proof {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 9px 12px;
+      border: 1px solid var(--portal-line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--portal-muted);
+      font-size: 0.86rem;
+      font-weight: 750;
+    }
+
+    .portal-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--portal-green);
+      box-shadow: 0 0 0 6px rgba(45, 212, 191, 0.12);
+    }
+
+    .portal-shell {
+      padding: 0 0 100px;
+      color: var(--portal-text);
+    }
+
+    .login-card,
+    .dashboard-panel,
+    .stat-card {
+      border: 1px solid var(--portal-line);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03)),
+        var(--portal-card);
+      box-shadow: var(--portal-shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .login-card {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+      border-radius: var(--portal-radius);
+    }
+
+    .login-card::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -70px;
+      top: -80px;
+      border: 42px solid rgba(56, 189, 248, 0.12);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .login-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .portal-lock {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #38bdf8, #7dd3fc);
+      color: #06111f;
+      font-weight: 950;
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.28);
+    }
+
+    .login-card h2,
+    .dashboard-panel h2 {
+      margin: 0 0 10px;
+    }
+
+    .login-card p,
+    .dashboard-panel p {
+      color: var(--portal-muted);
+    }
+
+    .portal-form {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .portal-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .portal-field label {
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 0.88rem;
+      font-weight: 850;
+    }
+
+    .portal-field input,
+    .portal-field select,
+    .portal-field textarea {
+      width: 100%;
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: 14px;
+      background: rgba(7, 17, 30, 0.74);
+      color: #ffffff;
+      padding: 13px 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .portal-field textarea {
+      min-height: 126px;
+      resize: vertical;
+    }
+
+    .portal-field input::placeholder,
+    .portal-field textarea::placeholder {
+      color: rgba(255, 255, 255, 0.38);
+    }
+
+    .portal-field input:focus,
+    .portal-field select:focus,
+    .portal-field textarea:focus {
+      border-color: rgba(56, 189, 248, 0.75);
+      background: rgba(7, 17, 30, 0.92);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.13);
+    }
+
+    .portal-button,
+    .portal-button-secondary,
+    .portal-button-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 950;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .portal-button {
+      background: linear-gradient(135deg, #38bdf8, #7dd3fc);
+      color: #06111f;
+      box-shadow: 0 16px 34px rgba(56, 189, 248, 0.24);
+    }
+
+    .portal-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 46px rgba(56, 189, 248, 0.34);
+    }
+
+    .portal-button-secondary {
+      background: #ffffff;
+      color: #06111f;
+    }
+
+    .portal-button-ghost {
+      border: 1px solid var(--portal-line-bright);
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+    }
+
+    .portal-button-ghost:hover {
+      transform: translateY(-2px);
+      border-color: rgba(125, 211, 252, 0.62);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .portal-small-link {
+      display: inline-flex;
+      justify-self: start;
+      color: #7dd3fc;
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .portal-note,
+    .portal-error {
+      margin-top: 20px;
+      padding: 14px;
+      border-radius: 18px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.88rem;
+    }
+
+    .portal-note {
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      background: rgba(56, 189, 248, 0.08);
+    }
+
+    .portal-note strong {
+      color: #7dd3fc;
+    }
+
+    .portal-error {
+      display: none;
+      border: 1px solid rgba(251, 113, 133, 0.3);
+      background: rgba(251, 113, 133, 0.09);
+    }
+
+    .portal-error.is-visible {
+      display: block;
+    }
+
+    .portal-view {
+      display: none;
+    }
+
+    .portal-view.is-active {
+      display: block;
+    }
+
+    .dashboard-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .client-identity {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .client-avatar {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #0f5b9d, #38bdf8);
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 950;
+      box-shadow: 0 16px 35px rgba(56, 189, 248, 0.22);
+    }
+
+    .client-identity h2 {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2.25rem);
+    }
+
+    .client-identity p {
+      margin: 3px 0 0;
+      color: var(--portal-muted);
+    }
+
+    .dashboard-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+      border-radius: 22px;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      width: 84px;
+      height: 84px;
+      right: -28px;
+      top: -34px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.12);
+      pointer-events: none;
+    }
+
+    .stat-label {
+      display: block;
+      color: var(--portal-muted);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      display: block;
+      margin-top: 8px;
+      color: #ffffff;
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      font-weight: 950;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .stat-sub {
+      display: block;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .dashboard-stack {
+      display: grid;
+      gap: 22px;
+    }
+
+    .dashboard-panel {
+      padding: 28px;
+      border-radius: var(--portal-radius);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+    }
+
+    .panel-header p {
+      margin: 6px 0 0;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-width: max-content;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 0.73rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-pill::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status-pending,
+    .status-due,
+    .status-needed,
+    .status-signature-required,
+    .status-scheduled {
+      background: rgba(250, 204, 21, 0.11);
+      color: var(--portal-yellow);
+      border: 1px solid rgba(250, 204, 21, 0.22);
+    }
+
+    .status-paid,
+    .status-signed,
+    .status-complete,
+    .status-completed,
+    .status-active,
+    .status-approved {
+      background: rgba(45, 212, 191, 0.11);
+      color: var(--portal-green);
+      border: 1px solid rgba(45, 212, 191, 0.22);
+    }
+
+    .status-draft,
+    .status-review,
+    .status-open,
+    .status-design-phase,
+    .status-coming-later {
+      background: rgba(56, 189, 248, 0.11);
+      color: var(--portal-blue-2);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+    }
+
+    .status-overdue,
+    .status-emergency {
+      background: rgba(251, 113, 133, 0.11);
+      color: var(--portal-red);
+      border: 1px solid rgba(251, 113, 133, 0.22);
+    }
+
+    .doc-list,
+    .invoice-list,
+    .request-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .doc-item,
+    .invoice-item,
+    .request-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--portal-line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .doc-title,
+    .invoice-title,
+    .request-title {
+      display: block;
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .doc-meta,
+    .invoice-meta,
+    .request-meta {
+      display: block;
+      margin-top: 4px;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 0.86rem;
+      font-weight: 650;
+    }
+
+    .item-actions {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tiny-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 8px 12px;
+      border: 1px solid var(--portal-line-bright);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .tiny-button:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tiny-button.primary {
+      border-color: transparent;
+      background: var(--portal-blue);
+      color: #06111f;
+    }
+
+    .tiny-button.success {
+      border-color: transparent;
+      background: var(--portal-green);
+      color: #031412;
+    }
+
+    .tiny-button[disabled] {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 13px;
+      bottom: 13px;
+      left: 10px;
+      width: 2px;
+      background: rgba(125, 211, 252, 0.18);
+    }
+
+    .timeline-step {
+      position: relative;
+      display: grid;
+      gap: 3px;
+      padding-left: 34px;
+    }
+
+    .timeline-step::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 7px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--portal-blue);
+      box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.12);
+    }
+
+    .timeline-step.is-complete::before,
+    .timeline-step.is-completed::before {
+      background: var(--portal-green);
+      box-shadow: 0 0 0 6px rgba(45, 212, 191, 0.12);
+    }
+
+    .timeline-step.is-waiting::before,
+    .timeline-step.is-pending::before {
+      background: var(--portal-yellow);
+      box-shadow: 0 0 0 6px rgba(250, 204, 21, 0.12);
+    }
+
+    .timeline-step strong {
+      color: #ffffff;
+      font-weight: 900;
+    }
+
+    .timeline-step span {
+      color: var(--portal-muted);
+      font-size: 0.88rem;
+    }
+
+    .payment-card {
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 90% 12%, rgba(45, 212, 191, 0.16), transparent 32%),
+        rgba(255, 255, 255, 0.055);
+      border: 1px solid var(--portal-line);
+    }
+
+    .payment-card h3 {
+      margin: 0 0 8px;
+    }
+
+    .payment-amount {
+      display: block;
+      margin: 16px 0 4px;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 950;
+      letter-spacing: -0.06em;
+      line-height: 1;
+    }
+
+    .payment-card p {
+      margin: 0 0 18px;
+    }
+
+    .billing-grid {
+      display: grid;
+      gap: 11px;
+      margin-top: 18px;
+    }
+
+    .billing-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(125, 211, 252, 0.12);
+      color: var(--portal-muted);
+      font-size: 0.9rem;
+    }
+
+    .billing-row strong {
+      color: #ffffff;
+      text-align: right;
+    }
+
+    .support-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .support-form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .portal-warning {
+      display: grid;
+      gap: 6px;
+      padding: 16px;
+      border: 1px solid rgba(250, 204, 21, 0.25);
+      border-radius: 18px;
+      background: rgba(250, 204, 21, 0.08);
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.9rem;
+    }
+
+    .portal-warning strong {
+      color: var(--portal-yellow);
+    }
+
+    .empty-state {
+      padding: 24px;
+      border: 1px dashed rgba(125, 211, 252, 0.28);
+      border-radius: 20px;
+      color: var(--portal-muted);
+      text-align: center;
+    }
+
+    .loading-state {
+      display: none;
+      margin-top: 20px;
+      color: var(--portal-muted);
+      font-weight: 800;
+    }
+
+    .loading-state.is-visible {
+      display: block;
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 9999;
+      max-width: 410px;
+      padding: 16px 18px;
+      border: 1px solid var(--portal-line-bright);
+      border-left: 5px solid var(--portal-blue);
+      border-radius: 18px;
+      background: rgba(7, 17, 30, 0.96);
+      color: #ffffff;
+      box-shadow: var(--portal-shadow);
+      transform: translateY(150%);
+      transition: transform 0.28s ease;
+      backdrop-filter: blur(16px);
+    }
+
+    .toast.is-visible {
+      transform: translateY(0);
+    }
+
+    .toast strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .toast span {
+      display: block;
+      color: var(--portal-muted);
+      font-size: 0.88rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1080px) {
+      .client-hero-grid,
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .login-card {
+        max-width: 620px;
+      }
+
+      .stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .client-hero {
+        padding: 66px 0 44px;
+      }
+
+      .dashboard-topbar,
+      .panel-header {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .dashboard-actions {
+        justify-content: stretch;
+      }
+
+      .dashboard-actions > *,
+      .portal-button,
+      .portal-button-secondary,
+      .portal-button-ghost {
+        width: 100%;
+      }
+
+      .stat-grid,
+      .support-form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .support-form-grid .full {
+        grid-column: auto;
+      }
+
+      .doc-item,
+      .invoice-item,
+      .request-item {
+        grid-template-columns: 1fr;
+      }
+
+      .item-actions {
+        justify-content: flex-start;
+      }
+
+      .dashboard-panel,
+      .login-card {
+        padding: 22px;
+        border-radius: 22px;
+      }
+
+      .client-identity {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header" data-header>
+    <a class="brand" href="index.html" aria-label="Star Web Co. home">
+      <img src="assets/img/logo.svg" alt="" />
+      <span>Star Web Co.</span>
+    </a>
+
+    <button
+      class="nav-toggle"
+      data-nav-toggle
+      aria-label="Open menu"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-nav" data-nav>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="about.html">About</a>
+      <a href="client-login.html" class="active">Client Login</a>
+      <a class="nav-button" href="quote.html">Get a Quote</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="client-hero">
+      <div class="container client-hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">Client portal</span>
+          <h1>Your Star Web Co. project hub.</h1>
+          <p class="lead">
+            Review documents, sign agreements, view invoices, track remaining
+            balances, manage recurring payments, and submit website update
+            requests from one place.
+          </p>
+
+          <div class="portal-proof-row">
+            <span class="portal-proof"><span class="portal-dot"></span> Documents</span>
+            <span class="portal-proof"><span class="portal-dot"></span> Invoices</span>
+            <span class="portal-proof"><span class="portal-dot"></span> Project tracking</span>
+            <span class="portal-proof"><span class="portal-dot"></span> Maintenance requests</span>
+          </div>
+        </div>
+
+        <aside class="login-card reveal" id="loginCard">
+          <div class="portal-lock" aria-hidden="true">★</div>
+          <h2>Client login</h2>
+          <p>
+            Sign in to view your Star Web Co. project dashboard.
+          </p>
+
+          <form class="portal-form" id="loginForm">
+            <div class="portal-field">
+              <label for="clientEmail">Email address</label>
+              <input
+                id="clientEmail"
+                name="clientEmail"
+                type="email"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="portal-field">
+              <label for="clientPassword">Password</label>
+              <input
+                id="clientPassword"
+                name="clientPassword"
+                type="password"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+
+            <button class="portal-button" type="submit" id="loginButton">
+              Open Client Dashboard
+            </button>
+
+            <a class="portal-small-link" href="mailto:hello@starwebco.com">
+              Need access? Contact Star Web Co.
+            </a>
+          </form>
+
+          <div class="loading-state" id="loadingState">
+            Loading client dashboard…
+          </div>
+
+          <div class="portal-error" id="loginError"></div>
+
+          <div class="portal-note">
+            <strong>Secure Firebase login:</strong> dashboard data loads from the
+            Firestore document that matches the signed-in user’s UID.
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="portal-shell">
+      <div class="container">
+
+        <div class="portal-view" id="dashboardView">
+          <div class="dashboard-topbar reveal">
+            <div class="client-identity">
+              <div class="client-avatar" id="clientAvatar">SW</div>
+              <div>
+                <h2 id="businessName">Client Dashboard</h2>
+                <p><span id="packageName">Website Package</span> • Project ID: <span id="projectId">—</span></p>
+              </div>
+            </div>
+
+            <div class="dashboard-actions">
+              <button class="portal-button-ghost" type="button" data-demo-action="Account settings can be connected in the next phase.">
+                Account Settings
+              </button>
+              <button class="portal-button-secondary" type="button" id="logoutButton">
+                Log Out
+              </button>
+            </div>
+          </div>
+
+          <div class="stat-grid reveal">
+            <article class="stat-card">
+              <span class="stat-label">Amount Owed</span>
+              <span class="stat-value" id="amountOwed">$0</span>
+              <span class="stat-sub">Final balance due before launch</span>
+            </article>
+
+            <article class="stat-card">
+              <span class="stat-label">Deposit Paid</span>
+              <span class="stat-value" id="depositPaid">$0</span>
+              <span class="stat-sub">Project deposit received</span>
+            </article>
+
+            <article class="stat-card">
+              <span class="stat-label">Documents Pending</span>
+              <span class="stat-value" id="pendingDocs">0</span>
+              <span class="stat-sub">Documents needing review/signature</span>
+            </article>
+
+            <article class="stat-card">
+              <span class="stat-label">Recurring Bill</span>
+              <span class="stat-value" id="recurringAmount">$0</span>
+              <span class="stat-sub" id="recurringStatus">Not active</span>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="dashboard-stack">
+
+              <section class="dashboard-panel reveal">
+                <div class="panel-header">
+                  <div>
+                    <h2>Documents & signatures</h2>
+                    <p>Review, sign, and download your active project documents.</p>
+                  </div>
+                  <span class="status-pill status-pending" id="documentSummary">Loading</span>
+                </div>
+
+                <div class="doc-list" id="documentsList">
+                  <div class="empty-state">Loading documents…</div>
+                </div>
+              </section>
+
+              <section class="dashboard-panel reveal">
+                <div class="panel-header">
+                  <div>
+                    <h2>Invoices & payment history</h2>
+                    <p>Track paid invoices, outstanding balances, and upcoming charges.</p>
+                  </div>
+                  <span class="status-pill status-pending" id="invoiceSummary">Loading</span>
+                </div>
+
+                <div class="invoice-list" id="invoicesList">
+                  <div class="empty-state">Loading invoices…</div>
+                </div>
+              </section>
+
+              <section class="dashboard-panel reveal">
+                <div class="panel-header">
+                  <div>
+                    <h2>Website update / problem request</h2>
+                    <p>Submit edits, report problems, or request new website changes.</p>
+                  </div>
+                  <span class="status-pill status-active">Connected</span>
+                </div>
+
+                <form class="portal-form" id="supportForm">
+                  <div class="support-form-grid">
+                    <div class="portal-field">
+                      <label for="requestType">Request type</label>
+                      <select id="requestType" required>
+                        <option value="">Choose one</option>
+                        <option>Text change</option>
+                        <option>Image change</option>
+                        <option>New page / section</option>
+                        <option>Bug or broken link</option>
+                        <option>Emergency issue</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+
+                    <div class="portal-field">
+                      <label for="priority">Priority</label>
+                      <select id="priority" required>
+                        <option>Normal</option>
+                        <option>High</option>
+                        <option>Emergency</option>
+                      </select>
+                    </div>
+
+                    <div class="portal-field full">
+                      <label for="affectedPage">Affected page or URL</label>
+                      <input
+                        id="affectedPage"
+                        placeholder="Example: Home page, Services page, Contact form, etc."
+                      />
+                    </div>
+
+                    <div class="portal-field full">
+                      <label for="requestDetails">Request details</label>
+                      <textarea
+                        id="requestDetails"
+                        placeholder="Describe what needs to be changed, fixed, added, or reviewed."
+                        required
+                      ></textarea>
+                    </div>
+
+                    <div class="portal-field full">
+                      <button class="portal-button" type="submit" id="supportSubmitButton">
+                        Submit Website Request
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </section>
+
+            </div>
+
+            <aside class="dashboard-stack">
+
+              <section class="dashboard-panel reveal">
+                <div class="panel-header">
+                  <div>
+                    <h2>Project status</h2>
+                    <p>Current phase and next steps.</p>
+                  </div>
+                  <span class="status-pill status-review" id="projectStatus">Loading</span>
+                </div>
+
+                <div class="timeline" id="timelineList">
+                  <div class="empty-state">Loading timeline…</div>
+                </div>
+              </section>
+
+              <section class="dashboard-panel reveal">
+                <div class="payment-card">
+                  <span class="status-pill status-pending">Balance due</span>
+                  <span class="payment-amount" id="paymentAmount">$0.00</span>
+                  <p>Final payment is due before website launch or transfer.</p>
+
+                  <button class="portal-button" type="button" id="payFinalButton">
+                    Pay Final Balance
+                  </button>
+                </div>
+              </section>
+
+              <section class="dashboard-panel reveal">
+                <div class="panel-header">
+                  <div>
+                    <h2>Recurring payments</h2>
+                    <p>Maintenance and hosting support billing.</p>
+                  </div>
+                  <span class="status-pill status-active" id="recurringStatusPill">Pending</span>
+                </div>
+
+                <div class="billing-grid">
+                  <div class="billing-row">
+                    <span>Plan</span>
+                    <strong id="maintenancePlan">Website Maintenance</strong>
+                  </div>
+                  <div class="billing-row">
+                    <span>Monthly amount</span>
+                    <strong id="recurringAmountSmall">$0/mo</strong>
+                  </div>
+                  <div class="billing-row">
+                    <span>Billing starts</span>
+                    <strong id="billingStarts">After launch</strong>
+                  </div>
+                  <div class="billing-row">
+                    <span>Status</span>
+                    <strong id="recurringStatusSmall">Pending activation</strong>
+                  </div>
+                </div>
+
+                <div style="display:grid; gap:10px; margin-top:20px;">
+                  <button class="portal-button-ghost" type="button" id="manageBillingButton">
+                    Manage Payment Method
+                  </button>
+                  <button class="portal-button-ghost" type="button" id="maintenanceTermsButton">
+                    View Maintenance Terms
+                  </button>
+                </div>
+              </section>
+
+              <section class="dashboard-panel reveal">
+                <div class="panel-header">
+                  <div>
+                    <h2>Recent requests</h2>
+                    <p>Track current website requests and issues.</p>
+                  </div>
+                </div>
+
+                <div class="request-list" id="requestList">
+                  <div class="empty-state">Loading requests…</div>
+                </div>
+              </section>
+
+              <section class="dashboard-panel reveal">
+                <div class="portal-warning">
+                  <strong>Connected portal active</strong>
+                  <span>
+                    Login, client data, documents, invoices, timeline, and support
+                    requests are now powered by Firebase. Stripe and e-signature
+                    buttons can use external links stored in Firestore.
+                  </span>
+                </div>
+              </section>
+
+            </aside>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a class="brand footer-brand" href="index.html">
+          <img src="assets/img/logo.svg" alt="" />
+          <span>Star Web Co.</span>
+        </a>
+        <p>
+          Modern websites for local businesses that need more attention, trust,
+          and customer inquiries.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="services.html">Services</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="about.html">About</a>
+        <a href="quote.html">Get a Quote</a>
+        <a href="client-login.html">Client Login</a>
+      </div>
+
+      <div class="footer-contact">
+        <span>Contact</span>
+        <a href="mailto:hello@starwebco.com">hello@starwebco.com</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Star Web Co. All rights reserved.</span>
+      <span>Built for speed, clarity, and conversion.</span>
+    </div>
+  </footer>
+
+  <div class="toast" data-toast role="status" aria-live="polite">
+    <strong>Portal update</strong>
+    <span>Ready.</span>
+  </div>
+
+  <script src="assets/js/main.js" defer></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      collection,
+      getDocs,
+      addDoc,
+      serverTimestamp,
+      query,
+      orderBy,
+      limit
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDG5nZssvQ6ZlEGU9Z3M3VKYOGpRwGadqg",
+      authDomain: "star-web-co-client-portal.firebaseapp.com",
+      databaseURL: "https://star-web-co-client-portal-default-rtdb.firebaseio.com",
+      projectId: "star-web-co-client-portal",
+      storageBucket: "star-web-co-client-portal.firebasestorage.app",
+      messagingSenderId: "20828777057",
+      appId: "1:20828777057:web:5e0457d5bab73705ac5820",
+      measurementId: "G-LKSK1SEZZ2"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    isSupported().then((supported) => {
+      if (supported) getAnalytics(app);
+    }).catch(() => {});
+
+    const $ = (selector) => document.querySelector(selector);
+
+    const elements = {
+      loginForm: $("#loginForm"),
+      loginCard: $("#loginCard"),
+      loginButton: $("#loginButton"),
+      loginError: $("#loginError"),
+      loadingState: $("#loadingState"),
+      dashboardView: $("#dashboardView"),
+      logoutButton: $("#logoutButton"),
+      businessName: $("#businessName"),
+      packageName: $("#packageName"),
+      projectId: $("#projectId"),
+      projectStatus: $("#projectStatus"),
+      clientAvatar: $("#clientAvatar"),
+      amountOwed: $("#amountOwed"),
+      depositPaid: $("#depositPaid"),
+      pendingDocs: $("#pendingDocs"),
+      recurringAmount: $("#recurringAmount"),
+      recurringStatus: $("#recurringStatus"),
+      paymentAmount: $("#paymentAmount"),
+      documentsList: $("#documentsList"),
+      documentSummary: $("#documentSummary"),
+      invoicesList: $("#invoicesList"),
+      invoiceSummary: $("#invoiceSummary"),
+      timelineList: $("#timelineList"),
+      requestList: $("#requestList"),
+      supportForm: $("#supportForm"),
+      supportSubmitButton: $("#supportSubmitButton"),
+      payFinalButton: $("#payFinalButton"),
+      recurringAmountSmall: $("#recurringAmountSmall"),
+      recurringStatusSmall: $("#recurringStatusSmall"),
+      recurringStatusPill: $("#recurringStatusPill"),
+      maintenancePlan: $("#maintenancePlan"),
+      billingStarts: $("#billingStarts"),
+      manageBillingButton: $("#manageBillingButton"),
+      maintenanceTermsButton: $("#maintenanceTermsButton"),
+      toast: $("[data-toast]")
+    };
+
+    let currentUser = null;
+    let currentClientData = null;
+    let finalPaymentUrl = "";
+    let billingPortalUrl = "";
+    let maintenanceTermsUrl = "";
+
+    function money(value) {
+      const number = Number(value || 0);
+      return number.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: number % 1 === 0 ? 0 : 2
+      });
+    }
+
+    function moneyFixed(value) {
+      const number = Number(value || 0);
+      return number.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+      });
+    }
+
+    function text(value, fallback = "—") {
+      if (value === undefined || value === null || value === "") return fallback;
+      return String(value);
+    }
+
+    function statusClass(status) {
+      return `status-${text(status, "review")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")}`;
+    }
+
+    function initials(name) {
+      return text(name, "SW")
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0]?.toUpperCase())
+        .join("") || "SW";
+    }
+
+    function showToast(title, message) {
+      if (!elements.toast) return;
+      elements.toast.querySelector("strong").textContent = title;
+      elements.toast.querySelector("span").textContent = message;
+      elements.toast.classList.add("is-visible");
+
+      window.clearTimeout(showToast.timeout);
+      showToast.timeout = window.setTimeout(() => {
+        elements.toast.classList.remove("is-visible");
+      }, 4300);
+    }
+
+    function showError(message) {
+      elements.loginError.textContent = message;
+      elements.loginError.classList.add("is-visible");
+    }
+
+    function clearError() {
+      elements.loginError.textContent = "";
+      elements.loginError.classList.remove("is-visible");
+    }
+
+    function setLoading(isLoading) {
+      elements.loginButton.disabled = isLoading;
+      elements.loginButton.textContent = isLoading ? "Signing in…" : "Open Client Dashboard";
+      elements.loadingState.classList.toggle("is-visible", isLoading);
+    }
+
+    function openDashboard() {
+      elements.loginCard.style.display = "none";
+      elements.dashboardView.classList.add("is-active");
+      elements.dashboardView.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function closeDashboard() {
+      currentUser = null;
+      currentClientData = null;
+      finalPaymentUrl = "";
+      billingPortalUrl = "";
+      maintenanceTermsUrl = "";
+      elements.loginCard.style.display = "block";
+      elements.dashboardView.classList.remove("is-active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    async function getOrderedCollection(pathSegments, max = 50) {
+      const colRef = collection(db, ...pathSegments);
+      try {
+        const orderedQuery = query(colRef, orderBy("sortOrder", "asc"), limit(max));
+        const snapshot = await getDocs(orderedQuery);
+        return snapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+      } catch (error) {
+        const snapshot = await getDocs(colRef);
+        return snapshot.docs
+          .map((item) => ({ id: item.id, ...item.data() }))
+          .sort((a, b) => Number(a.sortOrder || 999) - Number(b.sortOrder || 999));
+      }
+    }
+
+    async function loadClientDashboard(user) {
+      currentUser = user;
+
+      const clientRef = doc(db, "clients", user.uid);
+      const clientSnap = await getDoc(clientRef);
+
+      if (!clientSnap.exists()) {
+        closeDashboard();
+        await signOut(auth);
+        showError(
+          "Login worked, but no Firestore client profile exists for this user UID. Create clients/" +
+          user.uid +
+          " in Firestore."
+        );
+        return;
+      }
+
+      const client = clientSnap.data();
+      currentClientData = client;
+
+      const clientName = text(client.businessName, "Client Dashboard");
+      elements.businessName.textContent = clientName;
+      elements.packageName.textContent = text(client.packageName, "Website Package");
+      elements.projectId.textContent = text(client.projectId);
+      elements.projectStatus.textContent = text(client.projectStatus, "Project");
+      elements.projectStatus.className = `status-pill ${statusClass(client.projectStatus)}`;
+      elements.clientAvatar.textContent = initials(client.businessName || client.contactName || user.email);
+
+      elements.amountOwed.textContent = money(client.amountOwed);
+      elements.depositPaid.textContent = money(client.depositPaid);
+      elements.recurringAmount.textContent = money(client.recurringAmount);
+      elements.recurringStatus.textContent = text(client.recurringStatus, "Not active");
+      elements.paymentAmount.textContent = moneyFixed(client.amountOwed);
+
+      elements.recurringAmountSmall.textContent = `${money(client.recurringAmount)}/mo`;
+      elements.recurringStatusSmall.textContent = text(client.recurringStatus, "Pending activation");
+      elements.recurringStatusPill.textContent = text(client.recurringStatus, "Pending");
+      elements.recurringStatusPill.className = `status-pill ${statusClass(client.recurringStatus)}`;
+      elements.maintenancePlan.textContent = text(client.maintenancePlan, "Website Maintenance");
+      elements.billingStarts.textContent = text(client.billingStarts, "After launch");
+
+      finalPaymentUrl = text(client.finalPaymentUrl, "");
+      billingPortalUrl = text(client.billingPortalUrl, "");
+      maintenanceTermsUrl = text(client.maintenanceTermsUrl, "");
+
+      openDashboard();
+
+      const [documents, invoices, timeline, requests] = await Promise.all([
+        getOrderedCollection(["clients", user.uid, "documents"]),
+        getOrderedCollection(["clients", user.uid, "invoices"]),
+        getOrderedCollection(["clients", user.uid, "timeline"]),
+        getOrderedCollection(["clients", user.uid, "requests"], 20)
+      ]);
+
+      renderDocuments(documents);
+      renderInvoices(invoices);
+      renderTimeline(timeline);
+      renderRequests(requests);
+    }
+
+    function renderDocuments(documents) {
+      if (!documents.length) {
+        elements.documentsList.innerHTML = '<div class="empty-state">No documents have been added yet.</div>';
+        elements.documentSummary.textContent = "0 pending";
+        return;
+      }
+
+      const pending = documents.filter((docItem) => {
+        const status = text(docItem.status, "").toLowerCase();
+        return status.includes("required") || status.includes("pending") || status.includes("draft");
+      }).length;
+
+      elements.pendingDocs.textContent = pending;
+      elements.documentSummary.textContent = `${pending} pending`;
+      elements.documentSummary.className = `status-pill ${pending > 0 ? "status-pending" : "status-complete"}`;
+
+      elements.documentsList.innerHTML = documents.map((docItem) => {
+        const signUrl = text(docItem.signUrl, "");
+        const downloadUrl = text(docItem.downloadUrl, "");
+        const viewUrl = text(docItem.viewUrl, downloadUrl || signUrl);
+
+        return `
+          <article class="doc-item">
+            <div>
+              <span class="doc-title">${escapeHtml(text(docItem.title, "Document"))}</span>
+              <span class="doc-meta">${escapeHtml(text(docItem.meta || docItem.description, "Project document"))}</span>
+            </div>
+            <div class="item-actions">
+              <span class="status-pill ${statusClass(docItem.status)}">${escapeHtml(text(docItem.status, "Review"))}</span>
+              ${signUrl ? `<a class="tiny-button primary" href="${escapeAttribute(signUrl)}" target="_blank" rel="noopener noreferrer">Review & Sign</a>` : ""}
+              ${viewUrl ? `<a class="tiny-button" href="${escapeAttribute(viewUrl)}" target="_blank" rel="noopener noreferrer">View</a>` : ""}
+              ${downloadUrl ? `<a class="tiny-button" href="${escapeAttribute(downloadUrl)}" target="_blank" rel="noopener noreferrer">Download</a>` : ""}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderInvoices(invoices) {
+      if (!invoices.length) {
+        elements.invoicesList.innerHTML = '<div class="empty-state">No invoices have been added yet.</div>';
+        elements.invoiceSummary.textContent = "0 invoices";
+        return;
+      }
+
+      const dueInvoices = invoices.filter((invoice) => {
+        const status = text(invoice.status, "").toLowerCase();
+        return status.includes("due") || status.includes("pending") || status.includes("overdue");
+      });
+
+      elements.invoiceSummary.textContent = dueInvoices.length ? `${dueInvoices.length} due` : "All clear";
+      elements.invoiceSummary.className = `status-pill ${dueInvoices.length ? "status-pending" : "status-paid"}`;
+
+      const finalInvoice = invoices.find((invoice) => text(invoice.status, "").toLowerCase().includes("due") && invoice.payUrl);
+      if (finalInvoice?.payUrl) finalPaymentUrl = finalInvoice.payUrl;
+
+      elements.invoicesList.innerHTML = invoices.map((invoice) => {
+        const payUrl = text(invoice.payUrl, "");
+        const receiptUrl = text(invoice.receiptUrl, "");
+        const viewUrl = text(invoice.viewUrl, receiptUrl || payUrl);
+
+        return `
+          <article class="invoice-item">
+            <div>
+              <span class="invoice-title">${escapeHtml(text(invoice.title, "Invoice"))}</span>
+              <span class="invoice-meta">${escapeHtml(text(invoice.meta || invoice.description, ""))}${invoice.amount !== undefined ? ` • ${moneyFixed(invoice.amount)}` : ""}</span>
+            </div>
+            <div class="item-actions">
+              <span class="status-pill ${statusClass(invoice.status)}">${escapeHtml(text(invoice.status, "Review"))}</span>
+              ${payUrl ? `<a class="tiny-button primary" href="${escapeAttribute(payUrl)}" target="_blank" rel="noopener noreferrer">Pay Now</a>` : ""}
+              ${viewUrl ? `<a class="tiny-button" href="${escapeAttribute(viewUrl)}" target="_blank" rel="noopener noreferrer">View</a>` : ""}
+              ${receiptUrl ? `<a class="tiny-button" href="${escapeAttribute(receiptUrl)}" target="_blank" rel="noopener noreferrer">Receipt</a>` : ""}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderTimeline(items) {
+      if (!items.length) {
+        elements.timelineList.innerHTML = '<div class="empty-state">No timeline steps have been added yet.</div>';
+        return;
+      }
+
+      elements.timelineList.innerHTML = items.map((item) => `
+        <div class="timeline-step is-${escapeAttribute(text(item.status, "active").toLowerCase().replace(/[^a-z0-9]+/g, "-"))}">
+          <strong>${escapeHtml(text(item.title, "Project step"))}</strong>
+          <span>${escapeHtml(text(item.description, ""))}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderRequests(requests) {
+      if (!requests.length) {
+        elements.requestList.innerHTML = '<div class="empty-state">No website requests have been submitted yet.</div>';
+        return;
+      }
+
+      elements.requestList.innerHTML = requests.map((request) => `
+        <article class="request-item">
+          <div>
+            <span class="request-title">${escapeHtml(text(request.type || request.title, "Website request"))}</span>
+            <span class="request-meta">${escapeHtml(text(request.affectedPage, "No page specified"))} • ${escapeHtml(text(request.priority, "Normal"))} priority</span>
+          </div>
+          <span class="status-pill ${statusClass(request.status)}">${escapeHtml(text(request.status, "Open"))}</span>
+        </article>
+      `).join("");
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function escapeAttribute(value) {
+      return escapeHtml(value).replaceAll("`", "&#096;");
+    }
+
+    elements.loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearError();
+      setLoading(true);
+
+      const email = $("#clientEmail").value.trim();
+      const password = $("#clientPassword").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (error) {
+        console.error(error);
+        showError(cleanAuthError(error));
+        setLoading(false);
+      }
+    });
+
+    elements.logoutButton.addEventListener("click", async () => {
+      await signOut(auth);
+      closeDashboard();
+      showToast("Logged out.", "The client dashboard has been closed.");
+    });
+
+    elements.supportForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!currentUser) {
+        showToast("Not signed in.", "Please log in before submitting a request.");
+        return;
+      }
+
+      elements.supportSubmitButton.disabled = true;
+      elements.supportSubmitButton.textContent = "Submitting…";
+
+      try {
+        const request = {
+          type: $("#requestType").value,
+          priority: $("#priority").value,
+          affectedPage: $("#affectedPage").value.trim(),
+          details: $("#requestDetails").value.trim(),
+          status: "Open",
+          createdAt: serverTimestamp(),
+          clientEmail: currentUser.email
+        };
+
+        await addDoc(collection(db, "clients", currentUser.uid, "requests"), request);
+
+        elements.supportForm.reset();
+        showToast("Request submitted.", "Your website request was added to Firestore.");
+        const requests = await getOrderedCollection(["clients", currentUser.uid, "requests"], 20);
+        renderRequests(requests);
+      } catch (error) {
+        console.error(error);
+        showToast("Request failed.", "Check Firestore rules and try again.");
+      } finally {
+        elements.supportSubmitButton.disabled = false;
+        elements.supportSubmitButton.textContent = "Submit Website Request";
+      }
+    });
+
+    elements.payFinalButton.addEventListener("click", () => {
+      if (finalPaymentUrl) {
+        window.open(finalPaymentUrl, "_blank", "noopener,noreferrer");
+      } else {
+        showToast("No payment link yet.", "Add finalPaymentUrl to the client document or payUrl to a due invoice in Firestore.");
+      }
+    });
+
+    elements.manageBillingButton.addEventListener("click", () => {
+      if (billingPortalUrl) {
+        window.open(billingPortalUrl, "_blank", "noopener,noreferrer");
+      } else {
+        showToast("No billing portal link yet.", "Add billingPortalUrl to the client document in Firestore.");
+      }
+    });
+
+    elements.maintenanceTermsButton.addEventListener("click", () => {
+      if (maintenanceTermsUrl) {
+        window.open(maintenanceTermsUrl, "_blank", "noopener,noreferrer");
+      } else {
+        showToast("No maintenance terms link yet.", "Add maintenanceTermsUrl to the client document in Firestore.");
+      }
+    });
+
+    document.querySelectorAll("[data-demo-action]").forEach((button) => {
+      button.addEventListener("click", () => {
+        showToast("Coming next.", button.getAttribute("data-demo-action"));
+      });
+    });
+
+    onAuthStateChanged(auth, async (user) => {
+      clearError();
+
+      if (!user) {
+        setLoading(false);
+        closeDashboard();
+        return;
+      }
+
+      try {
+        setLoading(true);
+        await loadClientDashboard(user);
+        setLoading(false);
+        showToast("Welcome back.", "Your Star Web Co. client dashboard is loaded.");
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+        showError("Login worked, but dashboard data could not load. Check Firestore rules, collection names, and the client UID document.");
+      }
+    });
+
+    function cleanAuthError(error) {
+      const code = error?.code || "";
+      if (code.includes("auth/invalid-credential")) return "Email or password is incorrect.";
+      if (code.includes("auth/user-not-found")) return "No client account exists for that email.";
+      if (code.includes("auth/wrong-password")) return "Password is incorrect.";
+      if (code.includes("auth/too-many-requests")) return "Too many attempts. Wait a minute and try again.";
+      if (code.includes("auth/unauthorized-domain")) return "This domain is not authorized in Firebase Authentication settings.";
+      return "Login failed. Check the email, password, and Firebase Authentication settings.";
+    }
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach((element) => {
+      revealObserver.observe(element);
+    });
+  </script>
+</body>
+</html>
