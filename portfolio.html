@@ -1,27 +1,487 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Website Portfolio | Star Web Co.</title>
-  <meta name="description" content="View Star Web Co. portfolio examples and mock websites for roofing, HVAC, landscaping, and local service businesses." />
+  <meta
+    name="description"
+    content="Explore custom-coded website concepts created by Star Web Co. for roofing, landscaping, electrical, and local service businesses."
+  />
   <meta name="author" content="Star Web Co." />
   <meta name="theme-color" content="#06111f" />
+
   <link rel="canonical" href="https://starwebco.com/portfolio.html" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="assets/css/styles.css" />
+
   <meta property="og:title" content="Website Portfolio | Star Web Co." />
-  <meta property="og:description" content="View Star Web Co. portfolio examples and mock websites for roofing, HVAC, landscaping, and local service businesses." />
+  <meta
+    property="og:description"
+    content="Explore complete custom-coded websites created for local service businesses."
+  />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://starwebco.com/portfolio.html" />
   <meta property="og:site_name" content="Star Web Co." />
   <meta property="og:image" content="https://starwebco.com/assets/img/og-card.svg" />
+
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Website Portfolio | Star Web Co." />
-  <meta name="twitter:description" content="View Star Web Co. portfolio examples and mock websites for roofing, HVAC, landscaping, and local service businesses." />
+  <meta
+    name="twitter:description"
+    content="Explore complete custom-coded websites created for local service businesses."
+  />
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-S81K5852EL"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-S81K5852EL');</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Star Web Co.","url":"https://starwebco.com","logo":"https://starwebco.com/assets/img/logo.svg","email":"hello@starwebco.com","description":"Star Web Co. builds modern, conversion-focused websites for local businesses.","areaServed":["Stafford VA","Fredericksburg VA","Spotsylvania VA","Virginia"]}</script>
-</head><body><header class="site-header" data-header>
-<a class="brand" href="index.html" aria-label="Star Web Co. home"><img src="assets/img/logo.svg" alt=""><span>Star Web Co.</span></a>
-<button class="nav-toggle" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
-<nav class="site-nav" data-nav><a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html" class="active">Portfolio</a><a href="about.html">About</a><a class="nav-button" href="quote.html">Get a Quote</a></nav>
-</header><main><section class="page-hero"><div class="container"><span class="eyebrow">Portfolio</span><h1>Mock websites built like real client work.</h1><p class="lead">These portfolio pieces show the kind of websites Star Web Co. can build for local service businesses. Each mock site includes real page structure, calls-to-action, and industry-specific content.</p></div></section><section class="section"><div class="container grid-3"><article class="card portfolio-card reveal"><div class="portfolio-thumb"></div><div class="portfolio-content"><span class="badge">5-page mock site</span><h3>Blue Ridge Roofing</h3><p>A premium roofing website with home, services, repairs, projects, and contact pages.</p><div class="tags"><span>Roofing</span><span>Lead Gen</span><span>5 Pages</span></div><a class="btn btn-secondary" href="portfolio/blue-ridge-roofing/index.html">View Mock Site</a></div></article><article class="card portfolio-card reveal"><div class="portfolio-thumb"></div><div class="portfolio-content"><span class="badge">3-page mock site</span><h3>Summit HVAC</h3><p>A clean HVAC website focused on emergency service, maintenance, and quote requests.</p><div class="tags"><span>HVAC</span><span>Service</span><span>3 Pages</span></div><a class="btn btn-secondary" href="portfolio/summit-hvac/index.html">View Mock Site</a></div></article><article class="card portfolio-card reveal"><div class="portfolio-thumb"></div><div class="portfolio-content"><span class="badge">3-page mock site</span><h3>Green Valley Landscaping</h3><p>A visual landscaping website built around outdoor transformations and service inquiries.</p><div class="tags"><span>Landscaping</span><span>Gallery</span><span>3 Pages</span></div><a class="btn btn-secondary" href="portfolio/green-valley-landscaping/index.html">View Mock Site</a></div></article></div></section></main><footer class="site-footer"><div class="footer-inner"><div><a class="brand footer-brand" href="index.html"><img src="assets/img/logo.svg" alt=""><span>Star Web Co.</span></a><p>Modern websites for local businesses that need more attention, trust, and customer inquiries.</p></div><div class="footer-links"><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a><a href="about.html">About</a><a href="quote.html">Get a Quote</a></div><div class="footer-contact"><span>Contact</span><a href="mailto:hello@starwebco.com">hello@starwebco.com</a></div></div><div class="footer-bottom"><span>© 2026 Star Web Co. All rights reserved.</span><span>Built for speed, clarity, and conversion.</span></div></footer><script src="assets/js/main.js" defer></script></body></html>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-S81K5852EL");
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ProfessionalService",
+    "name":"Star Web Co.",
+    "url":"https://starwebco.com",
+    "logo":"https://starwebco.com/assets/img/logo.svg",
+    "email":"hello@starwebco.com",
+    "description":"Star Web Co. builds modern, conversion-focused websites for local businesses.",
+    "areaServed":["Stafford VA","Fredericksburg VA","Spotsylvania VA","Virginia"]
+  }
+  </script>
+
+  <!-- This page-specific CSS is intentionally embedded so you only replace one HTML file. -->
+  <style>
+    .portfolio-intro {
+      max-width: 780px;
+    }
+
+    .portfolio-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 10px 14px;
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.08);
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .portfolio-showcase {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .showcase-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      border: 1px solid rgba(125, 211, 252, 0.15);
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(17, 43, 73, 0.9), rgba(7, 17, 30, 0.98));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.2);
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .showcase-card:hover {
+      transform: translateY(-9px);
+      border-color: rgba(56, 189, 248, 0.52);
+      box-shadow: 0 34px 90px rgba(0, 0, 0, 0.32);
+    }
+
+    .showcase-preview {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      background: #07111e;
+    }
+
+    .showcase-preview::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 40%;
+      background: linear-gradient(transparent, rgba(7, 17, 30, 0.72));
+      pointer-events: none;
+    }
+
+    .showcase-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .showcase-card:hover .showcase-preview img {
+      transform: scale(1.045);
+    }
+
+    .concept-label {
+      position: absolute;
+      z-index: 2;
+      top: 16px;
+      left: 16px;
+      padding: 7px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(7, 17, 30, 0.86);
+      color: #ffffff;
+      font-size: 0.69rem;
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+    }
+
+    .showcase-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 28px;
+    }
+
+    .showcase-industry {
+      margin-bottom: 8px;
+      color: #7dd3fc;
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .showcase-content h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.55rem, 2.4vw, 2rem);
+      letter-spacing: -0.025em;
+    }
+
+    .showcase-content > p {
+      margin: 0 0 22px;
+      color: rgba(255, 255, 255, 0.67);
+    }
+
+    .showcase-features {
+      display: grid;
+      gap: 9px;
+      margin: 0 0 26px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .showcase-features li {
+      position: relative;
+      padding-left: 22px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+    }
+
+    .showcase-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #38bdf8;
+      font-weight: 900;
+    }
+
+    .showcase-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 11px;
+      margin-top: auto;
+    }
+
+    .showcase-actions .btn {
+      flex: 1 1 160px;
+      text-align: center;
+    }
+
+    .showcase-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #38bdf8, #7dd3fc);
+      color: #06111f;
+      font-weight: 900;
+      text-decoration: none;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .showcase-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(56, 189, 248, 0.3);
+    }
+
+    .portfolio-cta {
+      margin-top: 64px;
+      padding: 42px;
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 88% 20%, rgba(56, 189, 248, 0.22), transparent 30%),
+        linear-gradient(135deg, rgba(11, 42, 91, 0.7), rgba(7, 17, 30, 0.96));
+      text-align: center;
+    }
+
+    .portfolio-cta h2 {
+      max-width: 750px;
+      margin-inline: auto;
+    }
+
+    .portfolio-cta p {
+      max-width: 650px;
+      margin: 0 auto 24px;
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    @media (max-width: 1000px) {
+      .portfolio-showcase {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .portfolio-showcase {
+        grid-template-columns: 1fr;
+      }
+
+      .showcase-content {
+        padding: 24px;
+      }
+
+      .portfolio-cta {
+        padding: 30px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header" data-header>
+    <a class="brand" href="index.html" aria-label="Star Web Co. home">
+      <img src="assets/img/logo.svg" alt="" />
+      <span>Star Web Co.</span>
+    </a>
+
+    <button
+      class="nav-toggle"
+      data-nav-toggle
+      aria-label="Open menu"
+      aria-expanded="false"
+    >
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-nav" data-nav>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="portfolio.html" class="active">Portfolio</a>
+      <a href="about.html">About</a>
+      <a class="nav-button" href="quote.html">Get a Quote</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container portfolio-intro">
+        <span class="eyebrow">Custom-coded portfolio</span>
+        <h1>Complete websites—not recycled homepage templates.</h1>
+        <p class="lead">
+          Each concept below is a fully custom five-page website with its own
+          brand, logo, visual system, service structure, project portfolio, and
+          conversion-focused calls to action.
+        </p>
+        <span class="portfolio-note">
+          Portfolio concepts are fictional businesses created to demonstrate
+          Star Web Co. capabilities.
+        </span>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="portfolio-showcase">
+
+          <article class="showcase-card reveal">
+            <div class="showcase-preview">
+              <img
+                src="portfolio/ironpeak-roofing/assets/images/hero.svg"
+                alt="IronPeak Roofing and Exteriors custom website concept"
+              />
+              <span class="concept-label">5-page portfolio concept</span>
+            </div>
+
+            <div class="showcase-content">
+              <span class="showcase-industry">Roofing & Exteriors</span>
+              <h2>IronPeak Roofing</h2>
+              <p>
+                A strong, established contractor website designed to build trust,
+                explain complex exterior services, and generate roof-assessment
+                requests.
+              </p>
+
+              <ul class="showcase-features">
+                <li>Custom navy-and-copper brand system</li>
+                <li>Detailed roofing and storm-restoration services</li>
+                <li>Filterable project portfolio</li>
+                <li>Assessment request and lead-capture flow</li>
+              </ul>
+
+              <div class="showcase-actions">
+                <a
+                  class="showcase-primary"
+                  href="portfolio/ironpeak-roofing/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Live Concept
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article class="showcase-card reveal">
+            <div class="showcase-preview">
+              <img
+                src="portfolio/alder-stone-outdoor-living/assets/images/hero.svg"
+                alt="Alder and Stone Outdoor Living custom website concept"
+              />
+              <span class="concept-label">5-page portfolio concept</span>
+            </div>
+
+            <div class="showcase-content">
+              <span class="showcase-industry">Landscape Design-Build</span>
+              <h2>Alder & Stone</h2>
+              <p>
+                A premium landscape and outdoor-living website built around
+                high-end presentation, detailed design services, and consultation
+                inquiries.
+              </p>
+
+              <ul class="showcase-features">
+                <li>Organic green, cream, and clay visual direction</li>
+                <li>Interactive service-planning tabs</li>
+                <li>Detailed landscape project gallery</li>
+                <li>High-value consultation qualification form</li>
+              </ul>
+
+              <div class="showcase-actions">
+                <a
+                  class="showcase-primary"
+                  href="portfolio/alder-stone-outdoor-living/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Live Concept
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article class="showcase-card reveal">
+            <div class="showcase-preview">
+              <img
+                src="portfolio/forgepoint-electric/assets/images/hero.svg"
+                alt="ForgePoint Electric and Smart Home custom website concept"
+              />
+              <span class="concept-label">5-page portfolio concept</span>
+            </div>
+
+            <div class="showcase-content">
+              <span class="showcase-industry">Electrical & Smart Home</span>
+              <h2>ForgePoint Electric</h2>
+              <p>
+                A technical, modern electrical website focused on service calls,
+                panel upgrades, EV charging, backup power, and smart-home work.
+              </p>
+
+              <ul class="showcase-features">
+                <li>Dark high-contrast electrical brand</li>
+                <li>Interactive capability tabs</li>
+                <li>Project case studies and service filters</li>
+                <li>Urgent and standard service-request paths</li>
+              </ul>
+
+              <div class="showcase-actions">
+                <a
+                  class="showcase-primary"
+                  href="portfolio/forgepoint-electric/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Live Concept
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="portfolio-cta reveal">
+          <span class="eyebrow">Your business would not look like these</span>
+          <h2>Your site would be designed around your own brand, customers, and goals.</h2>
+          <p>
+            These concepts demonstrate the level of structure and detail Star
+            Web Co. can build. Client websites are custom-created rather than
+            copied from these designs.
+          </p>
+          <a class="btn btn-primary" href="quote.html">Start Your Custom Website</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <a class="brand footer-brand" href="index.html">
+          <img src="assets/img/logo.svg" alt="" />
+          <span>Star Web Co.</span>
+        </a>
+        <p>
+          Modern websites for local businesses that need more attention, trust,
+          and customer inquiries.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="services.html">Services</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="about.html">About</a>
+        <a href="quote.html">Get a Quote</a>
+      </div>
+
+      <div class="footer-contact">
+        <span>Contact</span>
+        <a href="mailto:hello@starwebco.com">hello@starwebco.com</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Star Web Co. All rights reserved.</span>
+      <span>Built for speed, clarity, and conversion.</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
