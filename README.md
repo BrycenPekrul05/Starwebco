@@ -5,8 +5,8 @@
 <script
   src="/assets/js/promo-banner.js"
   data-id="2026-website-giveaway"
-  data-start="{{PROMOTION_START_ISO}}"
-  data-end="{{PROMOTION_END_ISO}}"
+  data-start="July 16, 2026"
+  data-end="July 31, 2026"
   data-url="/giveaway.html"
   defer
 ></script>
