@@ -1,5 +1,12 @@
-# Star Web Co. Final Agency Site
+<!-- Add inside <head> after the existing main stylesheet. -->
+<link rel="stylesheet" href="/assets/css/giveaway.css">
 
-Upload the contents of this zip to the root of your GitHub Pages repo.
-
-Includes Formspree quote form, GA, SEO, portfolio mock sites, sitemap, robots, logo, and favicon.
+<!-- Add near the end of <body> on each public page. Replace all date tokens first. -->
+<script
+  src="/assets/js/promo-banner.js"
+  data-id="2026-website-giveaway"
+  data-start="{{PROMOTION_START_ISO}}"
+  data-end="{{PROMOTION_END_ISO}}"
+  data-url="/giveaway.html"
+  defer
+></script>
