@@ -1,11 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://starwebco.com/</loc><priority>1.0</priority></url>
-  <url><loc>https://starwebco.com/services.html</loc><priority>0.9</priority></url>
-  <url><loc>https://starwebco.com/portfolio.html</loc><priority>0.9</priority></url>
-  <url><loc>https://starwebco.com/about.html</loc><priority>0.8</priority></url>
-  <url><loc>https://starwebco.com/quote.html</loc><priority>0.9</priority></url>
-  <url><loc>https://starwebco.com/portfolio/blue-ridge-roofing/index.html</loc><priority>0.7</priority></url>
-  <url><loc>https://starwebco.com/portfolio/summit-hvac/index.html</loc><priority>0.7</priority></url>
-  <url><loc>https://starwebco.com/portfolio/green-valley-landscaping/index.html</loc><priority>0.7</priority></url>
+
+  <url>
+    <loc>https://starwebco.com/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://starwebco.com/services.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://starwebco.com/portfolio.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://starwebco.com/about.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://starwebco.com/quote.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://starwebco.com/portfolio/blue-ridge-roofing/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://starwebco.com/portfolio/summit-hvac/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://starwebco.com/portfolio/green-valley-landscaping/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
