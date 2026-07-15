@@ -1,0 +1,90 @@
+[
+  {
+    "file": "about.html",
+    "title": "About Star Web Co. | Virginia Web Design Company",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "client-login.html",
+    "title": "Client Login | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "giveaway-rules.html",
+    "title": "Website Giveaway Official Rules | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "giveaway-thank-you.html",
+    "title": "Giveaway Entry Received | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "giveaway.html",
+    "title": "Win a Free 5-Page Business Website | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "google5ad4a46faaac75a2.html",
+    "title": null,
+    "h1_count": 0,
+    "canonical_count": 0,
+    "description_count": 0,
+    "giveaway_link": false
+  },
+  {
+    "file": "index.html",
+    "title": "Custom Web Design for Contractors in Virginia | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "portfolio.html",
+    "title": "Contractor Website Design Portfolio | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "privacy.html",
+    "title": "Privacy Policy | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "quote.html",
+    "title": "Request a Free Website Quote | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  },
+  {
+    "file": "services.html",
+    "title": "Web Design, SEO & Website Maintenance | Star Web Co.",
+    "h1_count": 1,
+    "canonical_count": 1,
+    "description_count": 1,
+    "giveaway_link": true
+  }
+]
