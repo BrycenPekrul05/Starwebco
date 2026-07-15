@@ -1,0 +1,38 @@
+CREATE TABLE IF NOT EXISTS giveaway_entries (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  full_name TEXT NOT NULL,
+  business_name TEXT NOT NULL,
+  business_key TEXT NOT NULL UNIQUE,
+  business_role TEXT NOT NULL,
+  email TEXT NOT NULL,
+  email_normalized TEXT NOT NULL UNIQUE,
+  phone TEXT,
+  business_website TEXT,
+  industry TEXT NOT NULL,
+  location TEXT NOT NULL,
+  website_problem TEXT NOT NULL,
+  eligibility_agreement INTEGER NOT NULL CHECK (eligibility_agreement IN (0, 1)),
+  rules_agreement INTEGER NOT NULL CHECK (rules_agreement IN (0, 1)),
+  marketing_consent INTEGER NOT NULL DEFAULT 0 CHECK (marketing_consent IN (0, 1)),
+  rules_version TEXT NOT NULL,
+  early_discount_eligible INTEGER NOT NULL DEFAULT 0 CHECK (early_discount_eligible IN (0, 1)),
+  status TEXT NOT NULL DEFAULT 'eligible' CHECK (status IN ('eligible', 'selected', 'winner', 'disqualified', 'withdrawn')),
+  ip_hash TEXT NOT NULL,
+  user_agent TEXT,
+  created_at INTEGER NOT NULL,
+  selected_at INTEGER,
+  verified_at INTEGER,
+  notes TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_giveaway_entries_status_created
+  ON giveaway_entries (status, created_at);
+
+CREATE INDEX IF NOT EXISTS idx_giveaway_entries_early_discount
+  ON giveaway_entries (early_discount_eligible, created_at);
+
+CREATE INDEX IF NOT EXISTS idx_giveaway_entries_marketing
+  ON giveaway_entries (marketing_consent, created_at);
+
+CREATE INDEX IF NOT EXISTS idx_giveaway_entries_ip_hash
+  ON giveaway_entries (ip_hash, created_at);

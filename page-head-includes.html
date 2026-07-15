@@ -1,0 +1,447 @@
+const MAX_JSON_BYTES = 24_000;
+const RULES_VERSION_PATTERN = /^[A-Za-z0-9._-]{1,64}$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export async function onRequest(context) {
+  const { request } = context;
+
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        Allow: "POST, OPTIONS",
+        "Cache-Control": "no-store"
+      }
+    });
+  }
+
+  if (request.method !== "POST") {
+    return responseFor(request, 405, {
+      ok: false,
+      message: "Method not allowed."
+    }, { Allow: "POST" });
+  }
+
+  return handleEntry(context);
+}
+
+async function handleEntry(context) {
+  const { request, env } = context;
+
+  if (!env.GIVEAWAY_DB) {
+    return responseFor(request, 503, {
+      ok: false,
+      message: "The giveaway entry system is not configured."
+    });
+  }
+
+  if (!env.TURNSTILE_SECRET_KEY) {
+    return responseFor(request, 503, {
+      ok: false,
+      message: "The security verification service is not configured."
+    });
+  }
+
+  if (!env.ENTRY_HASH_SALT) {
+    return responseFor(request, 503, {
+      ok: false,
+      message: "The entry security configuration is incomplete."
+    });
+  }
+
+  if (!originAllowed(request, env.ALLOWED_ORIGINS)) {
+    return responseFor(request, 403, {
+      ok: false,
+      message: "This request did not come from an approved site."
+    });
+  }
+
+  const windowState = promotionWindowState(env.GIVEAWAY_START_ISO, env.GIVEAWAY_END_ISO);
+  if (windowState === "misconfigured") {
+    return responseFor(request, 503, {
+      ok: false,
+      message: "The giveaway schedule is not configured."
+    });
+  }
+  if (windowState === "upcoming") {
+    return responseFor(request, 403, {
+      ok: false,
+      message: "The giveaway is not open yet."
+    });
+  }
+  if (windowState === "closed") {
+    return responseFor(request, 403, {
+      ok: false,
+      message: "Giveaway entries are closed."
+    });
+  }
+
+  let rawPayload;
+  try {
+    rawPayload = await readPayload(request);
+  } catch (error) {
+    return responseFor(request, 400, {
+      ok: false,
+      message: error instanceof Error ? error.message : "The request could not be read."
+    });
+  }
+
+  const validation = validatePayload(rawPayload);
+  if (!validation.ok) {
+    return responseFor(request, 422, {
+      ok: false,
+      message: validation.message,
+      field: validation.field || null
+    });
+  }
+
+  const entry = validation.value;
+
+  if (entry.faxNumber) {
+    // Quietly reject automated honeypot submissions without revealing detection logic.
+    return responseFor(request, 200, {
+      ok: true,
+      entryId: "received",
+      earlyDiscountEligible: false
+    });
+  }
+
+  const clientIp = request.headers.get("CF-Connecting-IP") || "unknown";
+  const turnstileResult = await verifyTurnstile({
+    secret: env.TURNSTILE_SECRET_KEY,
+    token: entry.turnstileToken,
+    remoteIp: clientIp
+  });
+
+  if (!turnstileResult.success) {
+    return responseFor(request, 422, {
+      ok: false,
+      message: "The security check expired or failed. Please complete it again."
+    });
+  }
+
+  const emailNormalized = entry.email.toLowerCase();
+  const businessKey = normalizeBusinessKey(entry.businessName, entry.location);
+  const ipHash = await sha256(`${env.ENTRY_HASH_SALT}:${clientIp}`);
+  const userAgent = truncate(request.headers.get("User-Agent") || "", 500);
+
+  try {
+    const inserted = await env.GIVEAWAY_DB.prepare(`
+      INSERT INTO giveaway_entries (
+        full_name,
+        business_name,
+        business_key,
+        business_role,
+        email,
+        email_normalized,
+        phone,
+        business_website,
+        industry,
+        location,
+        website_problem,
+        eligibility_agreement,
+        rules_agreement,
+        marketing_consent,
+        rules_version,
+        early_discount_eligible,
+        status,
+        ip_hash,
+        user_agent,
+        created_at
+      )
+      VALUES (
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+        1, 1, ?, ?,
+        CASE
+          WHEN (SELECT COUNT(*) FROM giveaway_entries WHERE status = 'eligible') < 10 THEN 1
+          ELSE 0
+        END,
+        'eligible', ?, ?, unixepoch()
+      )
+      RETURNING id, early_discount_eligible, created_at
+    `)
+      .bind(
+        entry.fullName,
+        entry.businessName,
+        businessKey,
+        entry.businessRole,
+        entry.email,
+        emailNormalized,
+        entry.phone || null,
+        entry.businessWebsite || null,
+        entry.industry,
+        entry.location,
+        entry.websiteProblem,
+        entry.marketingConsent ? 1 : 0,
+        entry.rulesVersion,
+        ipHash,
+        userAgent || null
+      )
+      .first();
+
+    if (!inserted) {
+      throw new Error("The database did not return the accepted entry.");
+    }
+
+    if (env.FORMSPREE_ENDPOINT) {
+      context.waitUntil(sendOwnerNotification(env.FORMSPREE_ENDPOINT, {
+        entryId: inserted.id,
+        earlyDiscountEligible: Boolean(inserted.early_discount_eligible),
+        fullName: entry.fullName,
+        businessName: entry.businessName,
+        businessRole: entry.businessRole,
+        email: entry.email,
+        phone: entry.phone,
+        businessWebsite: entry.businessWebsite,
+        industry: entry.industry,
+        location: entry.location,
+        websiteProblem: entry.websiteProblem,
+        marketingConsent: entry.marketingConsent
+      }));
+    }
+
+    return responseFor(request, 201, {
+      ok: true,
+      entryId: inserted.id,
+      earlyDiscountEligible: Boolean(inserted.early_discount_eligible)
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+
+    if (/UNIQUE constraint failed: giveaway_entries\.email_normalized/i.test(message)) {
+      return responseFor(request, 409, {
+        ok: false,
+        message: "An entry using this email address has already been received."
+      });
+    }
+
+    if (/UNIQUE constraint failed: giveaway_entries\.business_key/i.test(message)) {
+      return responseFor(request, 409, {
+        ok: false,
+        message: "An entry for this business and service area has already been received."
+      });
+    }
+
+    console.error("Giveaway entry failure", error);
+    return responseFor(request, 500, {
+      ok: false,
+      message: "Your entry could not be saved. Please try again in a moment."
+    });
+  }
+}
+
+function originAllowed(request, allowedOriginsValue) {
+  const origin = request.headers.get("Origin");
+  if (!origin) return true;
+
+  const requestOrigin = new URL(request.url).origin;
+  const configured = String(allowedOriginsValue || "")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  const allowed = new Set([requestOrigin, ...configured]);
+  return allowed.has(origin);
+}
+
+function promotionWindowState(startValue, endValue) {
+  const start = new Date(startValue || "");
+  const end = new Date(endValue || "");
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || end <= start) {
+    return "misconfigured";
+  }
+
+  const now = Date.now();
+  if (now < start.getTime()) return "upcoming";
+  if (now > end.getTime()) return "closed";
+  return "open";
+}
+
+async function readPayload(request) {
+  const contentLength = Number(request.headers.get("Content-Length") || 0);
+  if (contentLength > MAX_JSON_BYTES) {
+    throw new Error("The submitted entry is too large.");
+  }
+
+  const contentType = request.headers.get("Content-Type") || "";
+
+  if (contentType.includes("application/json")) {
+    const text = await request.text();
+    if (new TextEncoder().encode(text).byteLength > MAX_JSON_BYTES) {
+      throw new Error("The submitted entry is too large.");
+    }
+    return JSON.parse(text);
+  }
+
+  if (contentType.includes("application/x-www-form-urlencoded") || contentType.includes("multipart/form-data")) {
+    const formData = await request.formData();
+    return Object.fromEntries(formData.entries());
+  }
+
+  throw new Error("Unsupported form submission format.");
+}
+
+function validatePayload(raw) {
+  if (!raw || typeof raw !== "object") {
+    return invalid("The entry form is incomplete.");
+  }
+
+  const value = {
+    fullName: cleanText(raw.fullName, 100),
+    businessName: cleanText(raw.businessName, 140),
+    businessRole: cleanText(raw.businessRole, 100),
+    email: cleanText(raw.email, 254),
+    phone: cleanText(raw.phone, 30),
+    businessWebsite: normalizeUrl(cleanText(raw.businessWebsite, 500)),
+    industry: cleanText(raw.industry, 120),
+    location: cleanText(raw.location, 140),
+    websiteProblem: cleanMultiline(raw.websiteProblem, 1500),
+    faxNumber: cleanText(raw.faxNumber, 200),
+    eligibilityAgreement: toBoolean(raw.eligibilityAgreement),
+    rulesAgreement: toBoolean(raw.rulesAgreement),
+    marketingConsent: toBoolean(raw.marketingConsent),
+    rulesVersion: cleanText(raw.rulesVersion, 64),
+    turnstileToken: cleanText(raw.turnstileToken || raw["cf-turnstile-response"], 2048)
+  };
+
+  if (value.fullName.length < 2) return invalid("Enter your full name.", "fullName");
+  if (value.businessName.length < 2) return invalid("Enter the business name.", "businessName");
+  if (value.businessRole.length < 2) return invalid("Enter your role in the business.", "businessRole");
+  if (!EMAIL_PATTERN.test(value.email)) return invalid("Enter a valid business email address.", "email");
+  if (value.phone && value.phone.length < 7) return invalid("Enter a valid phone number or leave it blank.", "phone");
+  if (raw.businessWebsite && !value.businessWebsite) return invalid("Enter a valid website address or leave it blank.", "businessWebsite");
+  if (value.industry.length < 2) return invalid("Enter the business type.", "industry");
+  if (value.location.length < 2) return invalid("Enter the Virginia city or service area.", "location");
+  if (value.websiteProblem.length < 10) return invalid("Tell us briefly what you want improved.", "websiteProblem");
+  if (!value.eligibilityAgreement) return invalid("You must confirm eligibility to enter.", "eligibilityAgreement");
+  if (!value.rulesAgreement) return invalid("You must agree to the Official Rules and Privacy Policy.", "rulesAgreement");
+  if (!RULES_VERSION_PATTERN.test(value.rulesVersion)) return invalid("The accepted rules version is missing.", "rulesVersion");
+  if (!value.turnstileToken) return invalid("Complete the security check.", "turnstileToken");
+
+  return { ok: true, value };
+}
+
+function invalid(message, field = null) {
+  return { ok: false, message, field };
+}
+
+function cleanText(value, maxLength) {
+  return truncate(String(value || "").replace(/[\u0000-\u001F\u007F]/g, " ").replace(/\s+/g, " ").trim(), maxLength);
+}
+
+function cleanMultiline(value, maxLength) {
+  return truncate(
+    String(value || "")
+      .replace(/\u0000/g, "")
+      .replace(/\r\n/g, "\n")
+      .replace(/[\t ]+/g, " ")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim(),
+    maxLength
+  );
+}
+
+function truncate(value, maxLength) {
+  return value.length > maxLength ? value.slice(0, maxLength) : value;
+}
+
+function toBoolean(value) {
+  return value === true || value === 1 || value === "1" || value === "true" || value === "on" || value === "yes";
+}
+
+function normalizeUrl(value) {
+  if (!value) return "";
+  try {
+    const candidate = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+    const url = new URL(candidate);
+    if (!/^https?:$/.test(url.protocol)) return "";
+    url.hash = "";
+    return truncate(url.toString(), 500);
+  } catch {
+    return "";
+  }
+}
+
+function normalizeBusinessKey(businessName, location) {
+  return `${businessName}::${location}`
+    .normalize("NFKD")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 240);
+}
+
+async function sha256(value) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function verifyTurnstile({ secret, token, remoteIp }) {
+  const formData = new FormData();
+  formData.append("secret", secret);
+  formData.append("response", token);
+  if (remoteIp && remoteIp !== "unknown") formData.append("remoteip", remoteIp);
+  formData.append("idempotency_key", crypto.randomUUID());
+
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) return { success: false };
+    return await response.json();
+  } catch (error) {
+    console.error("Turnstile verification failure", error);
+    return { success: false };
+  }
+}
+
+async function sendOwnerNotification(endpoint, entry) {
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        _subject: `Star Web Co. Giveaway Entry #${entry.entryId}: ${entry.businessName}`,
+        formType: "Website Giveaway Entry",
+        ...entry
+      })
+    });
+
+    if (!response.ok) {
+      console.warn("Formspree notification failed", response.status);
+    }
+  } catch (error) {
+    console.warn("Formspree notification error", error);
+  }
+}
+
+function responseFor(request, status, payload, extraHeaders = {}) {
+  const wantsJson = (request.headers.get("Accept") || "").includes("application/json") ||
+    (request.headers.get("Content-Type") || "").includes("application/json");
+
+  const headers = {
+    "Cache-Control": "no-store",
+    "Content-Security-Policy": "default-src 'none'; frame-ancestors 'none'",
+    "X-Content-Type-Options": "nosniff",
+    ...extraHeaders
+  };
+
+  if (wantsJson || status >= 400) {
+    return Response.json(payload, { status, headers });
+  }
+
+  if (payload.ok) {
+    const url = new URL("/giveaway.html", request.url);
+    url.searchParams.set("submitted", "1");
+    url.searchParams.set("entry", String(payload.entryId));
+    url.searchParams.set("early", payload.earlyDiscountEligible ? "1" : "0");
+    return Response.redirect(url.toString(), 303);
+  }
+
+  return Response.json(payload, { status, headers });
+}
